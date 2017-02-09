@@ -64,9 +64,9 @@
 
 <h2>AOE2 Fight Simulator</h2>
 <p>
-	This is a simple hits calculator between units in AOE2, the idea came from
+	This is a fight simulator between units in AOE2, the idea came from
 	Reddit user '<a href="https://www.reddit.com/user/xThomas">xThomas</a>' <a href="https://www.reddit.com/r/aoe2/comments/5s4mue/number_of_hits_calculator">post here</a>.<br /><br />
-	xThomas's post was using Lua, so I have just converted it to JavaScript and made the fight a little more descriptive. If you have any ideas please reply on <a href="https://www.reddit.com/r/aoe2/comments/5ssg4a/aoe2_hits_calculator_inspired_by_xthomas/">this Reddit post</a>
+	If you have any ideas please reply on <a href="https://www.reddit.com/r/aoe2/comments/5ssg4a/aoe2_hits_calculator_inspired_by_xthomas/">this Reddit post</a>
 	<br /><br />
 </p>
 

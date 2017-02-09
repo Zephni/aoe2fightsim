@@ -28,16 +28,28 @@ AOE2_HitsCalc = function()
 			{
 				obj1.hits++;
 				
-				if(obj1.matt > 0)
-					var damage = obj1.matt - obj2.mdef;
-				else if(obj1.patt > 0)
-					var damage = obj1.patt - obj2.pdef;
-				else
-					var damager = 0;
+				var matt = 0;
+				var bonusatt = 0;
+				var def = 0;
 
-				obj2.hp -= damage;
+				if(obj1.atkbonus[obj2.uclass] !== undefined)
+					bonusatt += obj1.atkbonus[obj2.uclass];
 
-				callback(obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing " + damage + " damage");
+				if(obj1.matt > 0){
+					matt = obj1.matt;
+					def = obj2.mdef;
+				}
+				else if(obj1.patt > 0){
+					matt = obj1.patk;
+					def = obj2.pdef;
+				}
+
+				obj2.hp -= (matt + bonusatt) - def;
+
+				var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing " + (matt + bonusatt);
+				if(bonusatt > 0)str += " (+"+bonusatt+" bonus dmg)";
+				if(def > 0)str += " (-"+def+" def)";
+				callback(str);
 
 				if(obj2.hp <= 0)
 				{
