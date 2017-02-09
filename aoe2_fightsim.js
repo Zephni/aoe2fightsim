@@ -42,30 +42,27 @@ AOE2_HitsCalc = function()
 						if(!obj1.t.includes("pierce")) def = obj2.ar[0];
 						else def = obj2.ar[1];
 
-						//bonus
-						if(obj1.extra !== undefined && obj1.extra["attack bonus"] !== undefined)
-						{
-							var atbonusarr = [];
-							var temp = obj1.extra["attack bonus"].replace(" against").split(", ");
+						// atk bonus
+						if(obj1.extra !== undefined && obj1.extra["attack bonus"] !== undefined){
+							var atbonusarr = [], temp = obj1.extra["attack bonus"].replace(" against").split(", ");
 							for(var i in temp){
-								var spl = temp[i].split(" ");
-								var spl2 = spl[1].split("/");
-								for(var i2 in spl2){
-									atbonusarr[spl2[i2].substr(0, 4)] = spl[0];
-								}
+								var spl = temp[i].split(" "), spl2 = spl[1].split("/");
+								for(var i2 in spl2) atbonusarr[spl2[i2].substr(0, 4)] = spl[0];
 							}
 		//
 							var temp = obj2.t.split(" ");
 							for(var i in temp)
-							{
-								if(atbonusarr[temp[i].substr(0, 4)] != undefined)
-								{
+								if(atbonusarr[temp[i].substr(0, 4)] != undefined){
 									atbonus = atbonusarr[temp[i].substr(0, 4)].substr(1);
-									break;
-								}
-							}
+								break;}
 						}
-						//bonus
+						// /atk bonus
+
+						// def bonus
+						if(obj1.extra !== undefined && obj1.extra["armor bonus"] !== undefined){
+							
+						}
+						// /def bonus
 
 						at = parseFloat(at);
 						atbonus = parseFloat(atbonus);
