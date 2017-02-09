@@ -45,10 +45,13 @@ AOE2_HitsCalc = function()
 						if(obj1.extra !== undefined && obj1.extra["attack bonus"] !== undefined)
 						{
 							var atbonusarr = [];
-							var temp = obj1.extra["attack bonus"].split(", ");
+							var temp = obj1.extra["attack bonus"].replace(" against").split(", ");
 							for(var i in temp){
 								var spl = temp[i].split(" ");
-								atbonusarr[spl[1]] = spl[0];
+								var spl2 = spl[1].split("/");
+								for(var i2 in spl2){
+									atbonusarr[spl2[i2]] = spl[0];
+								}
 							}
 		//
 							var temp = obj2.t.split(" ");
