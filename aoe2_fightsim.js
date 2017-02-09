@@ -34,6 +34,7 @@ AOE2_HitsCalc = function()
 
 						var at = 0;
 						var atbonus = 0;
+						var defbonus = 0;
 						var def = 0;
 
 						at = (obj1.at != "-") ? obj1.at : 0;
@@ -50,16 +51,16 @@ AOE2_HitsCalc = function()
 								var spl = temp[i].split(" ");
 								var spl2 = spl[1].split("/");
 								for(var i2 in spl2){
-									atbonusarr[spl2[i2]] = spl[0];
+									atbonusarr[spl2[i2].substr(0, 4)] = spl[0];
 								}
 							}
 		//
 							var temp = obj2.t.split(" ");
 							for(var i in temp)
 							{
-								if(atbonusarr[temp[i]] != undefined)
+								if(atbonusarr[temp[i].substr(0, 4)] != undefined)
 								{
-									atbonus = atbonusarr[temp[i]].substr(1);
+									atbonus = atbonusarr[temp[i].substr(0, 4)].substr(1);
 									break;
 								}
 							}
@@ -69,10 +70,11 @@ AOE2_HitsCalc = function()
 						at = parseFloat(at);
 						atbonus = parseFloat(atbonus);
 						def = parseFloat(def);
+						defbonus = parseFloat(defbonus);
 
 						if(obj1.at != "-" && obj1.at != 0 && at <= 0) at = 1;
 
-						var totaldmg = (at + atbonus) - def;
+						var totaldmg = (at + atbonus) - (def + defbonus);
 						obj2.hp -= totaldmg;
 
 						var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing total " + totaldmg+" damage";
