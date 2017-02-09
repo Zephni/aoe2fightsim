@@ -67,11 +67,13 @@ AOE2_HitsCalc = function()
 						atbonus = parseFloat(atbonus);
 						def = parseFloat(def);
 
+						if(obj1.at != "-" && obj1.at != 0 && at <= 0) at = 1;
+
 						var totaldmg = (at + atbonus) - def;
 						obj2.hp -= totaldmg;
 
-						var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing " + totaldmg;
-						if(atbonus > 0) str += " (+" + atbonus + " bonus dmg)";
+						var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing total " + totaldmg+" damage";
+						if(atbonus > 0) str += " (" + atbonus + " bonus dmg)";
 						if(def > 0)str += " (-"+def+" def)";
 						callback(str);
 
