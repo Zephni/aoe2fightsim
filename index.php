@@ -17,52 +17,49 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-<script type="text/javascript">
-	Units = {};
-	$.getJSON("https://cdn.rawgit.com/aocpip/aoe2stats/master/web/stats/aoc_units.json", function(data){
-		Units = data["data"];
-	});
-</script>
-
 <script type="text/javascript" src="<?php echo $Path; ?>aoe2_fightsim.js?0"></script>
 
 <script type="text/javascript">
-	window.onload = function(){
-		var Calc = AOE2_HitsCalc();
-		var DOMselects = document.querySelectorAll("select");
+	$(document).ready(function(){
+		$.getJSON("https://cdn.rawgit.com/aocpip/aoe2stats/master/web/stats/aoc_units.json", function(data){
+			var Units = data["data"];
 
-		for(var u in DOMselects)
-		{
-			var optgroup = "";
-			for(var i in Units)
+			var Calc = AOE2_HitsCalc();
+			var DOMselects = document.querySelectorAll("select");
+
+			for(var u in DOMselects)
 			{
-				if(typeof(Units[i]) == "string" && optgroup != Units[i])
+				var optgroup = "";
+				for(var i in Units)
 				{
-					optgroup = Units[i];
-					DOMselects[u].innerHTML += "<optgroup label='"+Units[i]+"'>";
-				}
-				else
-				{
-					DOMselects[u].innerHTML += "<option value='"+i+"'>"+Units[i].name+"</option>";
+					if(typeof(Units[i]) == "string" && optgroup != Units[i])
+					{
+						optgroup = Units[i];
+						DOMselects[u].innerHTML += "<optgroup label='"+Units[i]+"'>";
+					}
+					else
+					{
+						DOMselects[u].innerHTML += "<option value='"+i+"'>"+Units[i].name+"</option>";
+					}
 				}
 			}
-		}
 
-		document.querySelector("form").addEventListener("submit", function(e){
-			event.preventDefault();
-			
-			DOMresult = document.querySelector("#result");
-			DOMresult.innerHTML = "";
-			Calc.Fight(
-				Units[DOMselects[0].value],
-				Units[DOMselects[1].value]
-			, function(str){
-				DOMresult.innerHTML += str+"<br />";
+			document.querySelector("form").addEventListener("submit", function(e){
+				event.preventDefault();
+				
+				DOMresult = document.querySelector("#result");
+				DOMresult.innerHTML = "";
+				Calc.Fight(
+					Units[DOMselects[0].value],
+					Units[DOMselects[1].value]
+				, function(str){
+					DOMresult.innerHTML += str+"<br />";
+				});
+
+				window.scrollTo(0, document.body.scrollHeight);
 			});
-
-			window.scrollTo(0, document.body.scrollHeight);
 		});
-	}
+	});
 </script>
 
 <style type="text/css">
