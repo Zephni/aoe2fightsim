@@ -9,10 +9,12 @@ AOE2_HitsCalc = function()
 	{
 		this.FightOver = false;
 		this.unit1 = (JSON.parse(JSON.stringify(obj1))); 
-		this.unit2 = (JSON.parse(JSON.stringify(obj2))); 
+		this.unit2 = (JSON.parse(JSON.stringify(obj2)));
+		this.unit1.ar = this.unit1.ar.split('/');
+		this.unit2.ar = this.unit2.ar.split('/');
 		callback("<span style='color: blue;'>Battle: "+this.unit1.name+" ("+this.unit1.hp+"HP) vs "+this.unit2.name+" ("+this.unit2.hp+" HP)</span>");
 
-		//a.hp -= (Math.abs(b.matt - a.mdef) + Math.abs(b.patt - a.pdef));
+		//a.hp -= (Math.abs(b.at - a.mdef) + Math.abs(b.patt - a.pdef));
 
 		this.unit1.hits = 0;
 		this.unit2.hits = 0;
@@ -23,45 +25,66 @@ AOE2_HitsCalc = function()
 
 	PerformAttack = function(obj1, obj2, callback)
 	{
-		this.Timeout = setTimeout(function(){
-			if(!this.FightOver && obj1.hp > 0)
-			{
-				obj1.hits++;
-				
-				var matt = 0;
-				var bonusatt = 0;
-				var def = 0;
+		if(obj1.fr !== undefined && obj1.fr != "-" && obj1.fr > 0)
+		{
+			this.Timeout = setTimeout(function(){
+				if(!this.FightOver && obj1.hp > 0)
+					{
+						obj1.hits++;
 
-				if(obj1.atkbonus !== undefined && obj1.atkbonus[obj2.uclass] !== undefined)
-					bonusatt += obj1.atkbonus[obj2.uclass];
+						var at = 0;
+						var atbonus = 0;
+						var def = 0;
 
-				if(obj1.matt > 0){
-					matt = obj1.matt;
-					def = obj2.mdef;
-				}
-				else if(obj1.patt > 0){
-					matt = obj1.patt;
-					def = obj2.pdef;
-				}
+						at = (obj1.at != "-") ? obj1.at : 0;
 
-				obj2.hp -= (matt + bonusatt) - def;
+						if(!obj1.t.includes("pierce")) def = obj2.ar[0];
+						else def = obj2.ar[1];
 
-				var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing " + (matt + bonusatt);
-				if(bonusatt > 0)str += " (+"+bonusatt+" bonus dmg)";
-				if(def > 0)str += " (-"+def+" def)";
-				callback(str);
+						//bonus
+						if(obj1.extra !== undefined && obj1.extra["attack bonus"] !== undefined)
+						{
+							var atbonusarr = [];
+							var temp = obj1.extra["attack bonus"].split(", ");
+							for(var i in temp){
+								var spl = temp[i].split(" ");
+								atbonusarr[spl[1]] = spl[0];
+							}
+		//
+							var temp = obj2.t.split(" ");
+							for(var i in temp)
+							{
+								if(atbonusarr[temp[i]] != undefined)
+								{
+									atbonus = atbonusarr[temp[i]].substr(1);
+									break;
+								}
+							}
+						}
+						//bonus
 
-				if(obj2.hp <= 0)
-				{
-					this.Finished(callback);
-					this.FightOver = true;
-				}
-				else
-				{
-					this.PerformAttack(obj1, obj2, callback);
-				}
-			}
-		}, obj1.rate * 100);
+						at = parseFloat(at);
+						atbonus = parseFloat(atbonus);
+						def = parseFloat(def);
+
+						var totaldmg = (at + atbonus) - def;
+						obj2.hp -= totaldmg;
+
+						var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing " + totaldmg;
+						if(atbonus > 0) str += " (+" + atbonus + " bonus dmg)";
+						if(def > 0)str += " (-"+def+" def)";
+						callback(str);
+
+						if(obj2.hp <= 0)
+						{
+							this.Finished(callback);
+							this.FightOver = true;
+						}
+						
+						this.PerformAttack(obj1, obj2, callback);
+					}
+			}, obj1.fr * 100);
+		}
 	}
 
 	Finished = function(callback){

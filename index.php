@@ -15,7 +15,15 @@
 	}
 ?>
 
-<script type="text/javascript" src="<?php echo $Path; ?>aoe2_units.js?0"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	Units = {};
+	$.getJSON("https://cdn.rawgit.com/aocpip/aoe2stats/master/web/stats/aoc_units.json", function(data){
+		Units = data["data"];
+	});
+</script>
+
 <script type="text/javascript" src="<?php echo $Path; ?>aoe2_fightsim.js?0"></script>
 
 <script type="text/javascript">
@@ -26,16 +34,16 @@
 		for(var u in DOMselects)
 		{
 			var optgroup = "";
-			for(var i in Calc.Units)
+			for(var i in Units)
 			{
-				if(typeof(Calc.Units[i]) == "string" && optgroup != Calc.Units[i])
+				if(typeof(Units[i]) == "string" && optgroup != Units[i])
 				{
-					optgroup = Calc.Units[i];
-					DOMselects[u].innerHTML += "<optgroup label='"+Calc.Units[i]+"'>";
+					optgroup = Units[i];
+					DOMselects[u].innerHTML += "<optgroup label='"+Units[i]+"'>";
 				}
 				else
 				{
-					DOMselects[u].innerHTML += "<option value='"+i+"'>"+Calc.Units[i].name+"</option>";
+					DOMselects[u].innerHTML += "<option value='"+i+"'>"+Units[i].name+"</option>";
 				}
 			}
 		}
