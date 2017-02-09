@@ -32,7 +32,7 @@ AOE2_HitsCalc = function()
 				var bonusatt = 0;
 				var def = 0;
 
-				if(obj1.atkbonus[obj2.uclass] !== undefined)
+				if(obj1.atkbonus !== undefined && obj1.atkbonus[obj2.uclass] !== undefined)
 					bonusatt += obj1.atkbonus[obj2.uclass];
 
 				if(obj1.matt > 0){
