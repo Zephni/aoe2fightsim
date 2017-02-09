@@ -40,7 +40,7 @@ AOE2_HitsCalc = function()
 					def = obj2.mdef;
 				}
 				else if(obj1.patt > 0){
-					matt = obj1.patk;
+					matt = obj1.patt;
 					def = obj2.pdef;
 				}
 
