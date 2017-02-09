@@ -15,6 +15,12 @@ Units = [
 	{name : "Crossbowman",			hp : 35, 	matt : 0, 	mdef : 0, patt : 5, pdef : 0, rate : 2.03},
 	{name : "Arbalest",				hp : 40, 	matt : 0, 	mdef : 0, patt : 6, pdef : 0, rate : 2.03},
 
+	"Scout line",
+	{name : "Scout Cavalry (Dark)",		hp : 45, 	matt : 3, 	mdef : 0, patt : 0, pdef : 2, rate : 2.03},
+	{name : "Scout Cavalry (Feudal)",	hp : 45, 	matt : 5, 	mdef : 0, patt : 0, pdef : 2, rate : 2.03},
+	{name : "Light Cavalry",			hp : 60, 	matt : 7, 	mdef : 0, patt : 0, pdef : 2, rate : 2.03},
+	{name : "Hussar",					hp : 75, 	matt : 7, 	mdef : 0, patt : 0, pdef : 2, rate : 1.93},
+
 	"Knight line",
 	{name : "Knight",				hp : 100, 	matt : 10, 	mdef : 2, patt : 0, pdef : 2, rate : 1.83},
 	{name : "Cavalier",				hp : 120, 	matt : 12, 	mdef : 2, patt : 0, pdef : 2, rate : 1.35},
