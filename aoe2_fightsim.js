@@ -60,7 +60,17 @@ AOE2_HitsCalc = function()
 
 						// def bonus
 						if(obj1.extra !== undefined && obj1.extra["armor bonus"] !== undefined){
-							
+							var defbonusarr = [], temp = obj1.extra["armor bonus"].replace(" against").split(", ");
+							for(var i in temp){
+								var spl = temp[i].split(" "), spl2 = spl[1].split("/");
+								for(var i2 in spl2) defbonusarr[spl2[i2].substr(0, 4)] = spl[0];
+							}
+		//
+							var temp = obj2.t.split(" ");
+							for(var i in temp)
+								if(defbonusarr[temp[i].substr(0, 4)] != undefined){
+									defbonus = defbonusarr[temp[i].substr(0, 4)].substr(1);
+								break;}
 						}
 						// /def bonus
 
@@ -70,13 +80,14 @@ AOE2_HitsCalc = function()
 						defbonus = parseFloat(defbonus);
 
 						if(obj1.at != "-" && obj1.at != 0 && at <= 0) at = 1;
-
 						var totaldmg = (at + atbonus) - (def + defbonus);
+						if(totaldmg <= 0) totaldmg = 1;
+
 						obj2.hp -= totaldmg;
 
 						var str = obj1.name + " attacks " + obj2.name + " (" + obj2.hp + " HP) causing total " + totaldmg+" damage";
 						if(atbonus > 0) str += " (" + atbonus + " bonus dmg)";
-						if(def > 0)str += " (-"+def+" def)";
+						if(def > 0 || defbonus) str += " (-"+(def + defbonus)+" def)";
 						callback(str);
 
 						if(obj2.hp <= 0)
